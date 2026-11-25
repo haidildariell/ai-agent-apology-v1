@@ -14,10 +14,26 @@ LINE = (
 )
 
 
+MIN_LENGTH = 1
+MAX_LENGTH = 159
+OUTPUT_PATH = "/output/entry.txt"
+
+
+def validate(text: str) -> str:
+    if not MIN_LENGTH <= len(text) <= MAX_LENGTH:
+        raise ValueError(
+            f"entry length {len(text)} outside {MIN_LENGTH}..{MAX_LENGTH}"
+        )
+    if not text.strip():
+        raise ValueError("entry must not be blank")
+    return text
+
+
 def main() -> None:
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as handle:
-        handle.write(LINE)
+    entry = validate(LINE)
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
+        handle.write(entry)
 
 
 if __name__ == "__main__":
